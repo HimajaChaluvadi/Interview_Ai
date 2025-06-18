@@ -33,8 +33,7 @@ const CandidateInformation = () => {
     graduation: '',
     skill: [],
     file: null,
-    profile: user.profilePhoto?.url || '',
-    role: ''
+    profile: user.profilePhoto?.url || ''
   })
 
   const [roles, setRoles] = useState([])
@@ -81,8 +80,7 @@ const CandidateInformation = () => {
         graduation: user.graduation,
         skill: user.skill,
         file: user.file,
-        profile: user.profile,
-        role: user.role
+        profile: user.profile
       })
     } catch (error) {
       toast.error('Error fetching data:', error)
@@ -91,10 +89,6 @@ const CandidateInformation = () => {
 
   const fetchRolesAndSkills = async () => {
     try {
-      const rolesResponse = await axiosInstance.get(
-        `${endPoints.roles.getAll}`
-      )
-      setRoles(rolesResponse.data.data)
       const skillsResponse = await axiosInstance.get(
         endPoints.skills.getAll
       )
@@ -104,7 +98,7 @@ const CandidateInformation = () => {
       }))
       setSkills(fetchedSkills)
     } catch (error) {
-      toast.error('Failed to load roles and skills')
+      toast.error('Failed to load skills')
     }
   }
 
@@ -121,7 +115,6 @@ const CandidateInformation = () => {
     if (!formData.birth_Date) newErrors.birth_Date = 'Date of birth is required'
     if (!formData.address) newErrors.address = 'Address is required'
     if (!formData.graduation) newErrors.graduation = 'Graduation is required'
-    if (!formData.role) newErrors.role = 'Role is required'
     if (formData.skill.length === 0)
       newErrors.skill = 'At least one skill is required'
     if (!formData.file) newErrors.file = 'Resume is required'
@@ -129,7 +122,6 @@ const CandidateInformation = () => {
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
-
 
   const handleChange = e => {
     const { name, value, type, files } = e.target;
@@ -196,8 +188,6 @@ const CandidateInformation = () => {
     }
   };
 
-
-
   const handleSkillsChange = selectedOptions => {
     setFormData(prev => ({
       ...prev,
@@ -214,7 +204,6 @@ const CandidateInformation = () => {
 
     if (!validateForm()) {
       toast.error('Please fill in all required fields correctly')
-
       return
     }
 
@@ -392,32 +381,11 @@ const CandidateInformation = () => {
             )}
           </div>
 
-          {/* <div>
-            <label
-              htmlFor="gender"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Gender
-            </label>
-            <input
-              type="text"
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              className={`input border ${
-                errors.gender ? "border-red-500" : "border-gray-300"
-              } w-full  rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#4DC3AB]`}
-              
-            />
-            {errors.gender && (
-              <span className="text-red-500 text-sm">{errors.gender}</span>
-            )}
-          </div> */}
           <div className="flex flex-col w-full mb-4 pt-1">
             <label className="mb-1 text-gray-500">Gender</label>
             <div className="relative">
               <select
-                name="gender" // This is critical for handleChange to work correctly
+                name="gender"
                 value={formData.gender}
                 onChange={handleChange}
                 className={`input border ${errors.gender ? "border-red-500" : "border-gray-300"
@@ -449,7 +417,6 @@ const CandidateInformation = () => {
               onChange={handleChange}
               className={`input border ${errors.birth_Date ? "border-red-500" : "border-gray-300"
                 } w-full  rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#4DC3AB]`}
-
             />
             {errors.birth_Date && (
               <span className="text-red-500 text-sm">{errors.birth_Date}</span>
@@ -500,7 +467,7 @@ const CandidateInformation = () => {
         )}
       </div>
 
-      {/* Skills, Graduation, Role */}
+      {/* Skills, Graduation */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         <div>
           <label
@@ -523,31 +490,6 @@ const CandidateInformation = () => {
           )}
         </div>
 
-        <div>
-          <label
-            htmlFor="role"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Role <span className="text-red-500">*</span>
-          </label>
-          <select
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            className={`input border ${errors.role ? "border-red-500" : "border-gray-300"
-              } w-full rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#4DC3AB]`}
-          >
-            <option value="">Select Role</option>
-            {roles.map((roleItem) => (
-              <option key={roleItem._id} value={roleItem.roleName}>
-                {roleItem.roleName}
-              </option>
-            ))}
-          </select>
-          {errors.role && (
-            <span className="text-red-500 text-sm">{errors.role}</span>
-          )}
-        </div>
         <div>
           <label
             htmlFor="file"
@@ -582,31 +524,8 @@ const CandidateInformation = () => {
           {errors.file && (
             <span className="text-red-500 text-sm">{errors.file}</span>
           )}
-
         </div>
-        <div>
-          <label
-            htmlFor="skills"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Skills <span className="text-red-500">*</span>
-          </label>
-          <Select
-            closeMenuOnSelect={false}
-            components={animatedComponents}
-            isMulti
-            options={skills}
-            onChange={handleSkillsChange}
-            value={formData.skill.map((skill) => ({
-              value: skill,
-              label: skill,
-            }))}
-            className={errors.skill ? "select-error" : ""}
-          />
-          {errors.skill && (
-            <span className="text-red-500 text-sm">{errors.skill}</span>
-          )}
-        </div>
+        
       </div>
       <div className="flex justify-center sm:justify-end space-x-4">
         <button
@@ -622,7 +541,7 @@ const CandidateInformation = () => {
           ) : isEdit ? (
             "Update Information"
           ) : (
-            "Schedule Interview"
+            "Submit"
           )}
         </button>
       </div>

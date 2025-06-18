@@ -1,20 +1,12 @@
 export const sidebarItems = [
   { id: 1, name: 'Dashboard', path: '/user' },
-  { id: 2, name: 'Resume Builder', path: 'resume-builder' },
-  { id: 3, name: 'Enroll Course', path: 'enroll-course' },
-  {
-    id: 4,
-    name: 'Candidate Management',
-    subMenu: [
-      { id: 5, name: 'Candidate Information', path: 'candidate-info' },
-      { id: 6, name: 'Schedule Interview', path: 'schedule-interview' },
-      { id: 7, name: 'Interview Progress', path: 'interview-progress' }
-    ]
-  },
+ /* { id: 2, name: 'Resume Builder', path: 'resume-builder' },
+  { id: 3, name: 'Enroll Course', path: 'enroll-course' },*/
+  
   { id: 8, name: 'Live Interview', path: 'live-interview' },
   { id: 9, name: 'AI Career Coach', path: 'ai-career-coatch' },
-  { id: 10, name: 'Mock Practice', path: 'practical-exam' },
-  { id: 11, name: 'Enroll Course History', path: 'enroll-course-history' },
+  { id: 10, name: 'Code Practice', path: 'practical-exam' },
+  /*{ id: 11, name: 'Enroll Course History', path: 'enroll-course-history' },*/
 ]
 
 export const adminrole = [
